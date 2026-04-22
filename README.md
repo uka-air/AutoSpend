@@ -8,10 +8,10 @@ A React Native app (Expo workflow) for iOS and Android that can:
 - Extract likely `amount`, `merchant`, `date/time`, and `payment method`
 - Suggest an expense category automatically
 
-## Run
+## Clean install (recommended)
 
 ```bash
-rm -rf node_modules node_modules/.package-lock.json package-lock.json
+npm run clean
 npm install
 npx expo install --fix
 npx expo start -c
@@ -19,7 +19,7 @@ npx expo start -c
 
 ## Dependency compatibility (Expo SDK 55)
 
-This project is aligned to Expo SDK 55-compatible versions:
+This project is locked to Expo SDK 55-compatible versions in both `dependencies` and `overrides`.
 
 - `expo@~55.0.17`
 - `expo-camera@~55.0.16`
@@ -30,4 +30,4 @@ This project is aligned to Expo SDK 55-compatible versions:
 - `@types/react@~19.2.10`
 - `typescript@~5.9.2`
 
-If you still see `ERESOLVE`, make sure your local `node_modules` was fully removed before reinstalling.
+If npm still reports older versions (`expo@54`, `react-native@0.74`, `@types/react@18`), your local `node_modules` tree is stale—run `npm run clean` and reinstall.
