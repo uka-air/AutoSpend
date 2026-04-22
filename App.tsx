@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Alert, Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import * as TextRecognition from 'react-native-text-recognition';
+import TextRecognition from 'react-native-text-recognition';
 import { parseReceiptText } from './src/ocrParser';
 import { ReceiptData } from './src/types';
 
