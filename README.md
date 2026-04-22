@@ -20,7 +20,7 @@ Then launch on iOS/Android simulator or device from the Expo UI.
 
 ## Troubleshooting: "Project is incompatible with this version of Expo Go"
 
-This project is currently on **Expo SDK 55** (`expo` `~55.0.0` in `package.json`).
+This project is currently on **Expo SDK 54** (`expo` `~54.0.0` in `package.json`).
 If your phone has an older Expo Go build, Expo will block launch with that compatibility error.
 
 ### Fix on a physical device
