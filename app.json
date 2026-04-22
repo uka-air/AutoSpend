@@ -2,7 +2,7 @@
   "expo": {
     "name": "AutoSpend",
     "slug": "autospend-mobile",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "orientation": "portrait",
     "ios": {
       "supportsTablet": true,

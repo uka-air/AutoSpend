@@ -16,14 +16,21 @@ npx expo install
 npx expo start -c
 ```
 
-## Dependency compatibility
+## Expo Go SDK compatibility
 
-This project is aligned to the installed Expo SDK 55 compatibility set:
+This project is pinned to **Expo SDK 54** to match the current Expo Go app support.
 
-- `expo-camera@~55.0.16`
-- `expo-image-picker@~55.0.19`
-- `expo-status-bar@~55.0.5`
-- `react@19.2.0`
-- `react-native@0.83.6`
-- `@types/react@~19.2.10`
-- `typescript@~5.9.2`
+Current compatible package set:
+
+- `expo@~54.0.0`
+- `expo-camera@~17.0.10`
+- `expo-image-picker@~17.0.10`
+- `expo-status-bar@~3.0.9`
+- `react@19.1.0`
+- `react-native@0.81.0`
+
+If you still see a mismatch warning, run:
+
+```bash
+npx expo install --fix
+```
