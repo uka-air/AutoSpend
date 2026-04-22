@@ -1,6 +1,6 @@
-# AutoSpend (React Native)
+# AutoSpend (React Native + Expo)
 
-React Native app for iOS and Android that can:
+A React Native app (Expo workflow) for iOS and Android that can:
 
 - Import receipt images from gallery
 - Take receipt photos with camera
@@ -8,21 +8,22 @@ React Native app for iOS and Android that can:
 - Extract likely `amount`, `merchant`, `date/time`, and `payment method`
 - Suggest an expense category automatically
 
-## Why this no longer uses Expo Go
-
-To remove the recurring `Project is incompatible with this version of Expo Go` issue, this project now runs as a **standard React Native app (CLI)** instead of Expo Go.
-
 ## Run
 
 ```bash
 npm install
-npm run start
-npm run ios
-# or
-npm run android
+npx expo install
+npx expo start -c
 ```
 
-## Native setup notes
+## Dependency compatibility
 
-- iOS: run `cd ios && pod install` before `npm run ios`.
-- Android: ensure camera and media permissions are enabled in your Android manifest.
+This project is aligned to the installed Expo SDK 55 compatibility set:
+
+- `expo-camera@~55.0.16`
+- `expo-image-picker@~55.0.19`
+- `expo-status-bar@~55.0.5`
+- `react@19.2.0`
+- `react-native@0.83.6`
+- `@types/react@~19.2.10`
+- `typescript@~5.9.2`

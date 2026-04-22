@@ -1,18 +1,7 @@
+import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import {
-  Alert,
-  Button,
-  Image,
-  PermissionsAndroid,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import { Asset, launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Alert, Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import * as TextRecognition from 'react-native-text-recognition';
 import { parseReceiptText } from './src/ocrParser';
 import { ReceiptData } from './src/types';
@@ -21,17 +10,6 @@ export default function App() {
   const [imageUri, setImageUri] = useState<string | undefined>();
   const [receiptData, setReceiptData] = useState<ReceiptData | undefined>();
   const [isProcessing, setIsProcessing] = useState(false);
-
-  async function requestAndroidPermissions() {
-    if (Platform.OS !== 'android') {
-      return true;
-    }
-
-    const camera = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
-    const photos = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES);
-
-    return camera === PermissionsAndroid.RESULTS.GRANTED && photos === PermissionsAndroid.RESULTS.GRANTED;
-  }
 
   async function runOcr(uri: string) {
     try {
@@ -45,60 +23,55 @@ export default function App() {
     }
   }
 
-  async function handleAsset(asset?: Asset) {
-    const uri = asset?.uri;
-    if (!uri) {
+  async function importFromGallery() {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert('Permission denied', 'Photo library permission is required.');
       return;
     }
 
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      quality: 1
+    });
+
+    if (result.canceled || !result.assets[0]?.uri) {
+      return;
+    }
+
+    const uri = result.assets[0].uri;
     setImageUri(uri);
     await runOcr(uri);
   }
 
-  async function importFromGallery() {
-    const hasPermissions = await requestAndroidPermissions();
-    if (!hasPermissions) {
-      Alert.alert('Permission denied', 'Gallery permission is required.');
-      return;
-    }
-
-    const result = await launchImageLibrary({
-      mediaType: 'photo',
-      selectionLimit: 1
-    });
-
-    if (result.didCancel) {
-      return;
-    }
-
-    await handleAsset(result.assets?.[0]);
-  }
-
   async function takePhoto() {
-    const hasPermissions = await requestAndroidPermissions();
-    if (!hasPermissions) {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
       Alert.alert('Permission denied', 'Camera permission is required.');
       return;
     }
 
-    const result = await launchCamera({
-      mediaType: 'photo',
-      saveToPhotos: false
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 1
     });
 
-    if (result.didCancel) {
+    if (result.canceled || !result.assets[0]?.uri) {
       return;
     }
 
-    await handleAsset(result.assets?.[0]);
+    const uri = result.assets[0].uri;
+    setImageUri(uri);
+    await runOcr(uri);
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar style="auto" />
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>AutoSpend Receipt Scanner</Text>
-        <Text style={styles.subtitle}>React Native iOS + Android · Camera + Gallery + OCR</Text>
+        <Text style={styles.subtitle}>iOS + Android · Camera + Gallery + OCR</Text>
 
         <View style={styles.actions}>
           <Button title="Import from Gallery" onPress={importFromGallery} />
