@@ -9,7 +9,7 @@ export function parseReceiptText(lines: string[]): ReceiptData {
   const nonEmpty = lines.map((line) => line.trim()).filter(Boolean);
   const rawText = nonEmpty.join('\n');
 
-  const amount = rawText.match(AMOUNT_PATTERN)?.[1];
+  const amount = rawText.match(AMOUNT_PATTERN)?.[1]?.replace(',', '.');
   const dateTime = rawText.match(DATE_PATTERN)?.[1];
   const paymentMethodMatch = rawText.match(PAYMENT_METHOD_PATTERN)?.[1];
 
