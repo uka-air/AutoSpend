@@ -84,12 +84,10 @@ export default function App() {
 
         {receiptData ? (
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>Extracted Receipt Data</Text>
-            <Text>Merchant: {receiptData.merchant ?? 'N/A'}</Text>
+            <Text style={styles.cardTitle}>Extracted Receipt Data (MVP)</Text>
+            <Text>To: {receiptData.toName ?? 'N/A'}</Text>
             <Text>Amount: {receiptData.amount ?? 'N/A'}</Text>
             <Text>Date/Time: {receiptData.dateTime ?? 'N/A'}</Text>
-            <Text>Payment Method: {receiptData.paymentMethod ?? 'N/A'}</Text>
-            <Text>Suggested Category: {receiptData.category ?? 'N/A'}</Text>
             <Text style={styles.rawTextTitle}>Raw OCR text:</Text>
             <Text style={styles.rawText}>{receiptData.rawText || 'No text found.'}</Text>
           </View>
