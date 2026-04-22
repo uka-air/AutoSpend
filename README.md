@@ -1,6 +1,6 @@
 # AutoSpend (React Native)
 
-A React Native (Expo) starter for iOS and Android that can:
+React Native app for iOS and Android that can:
 
 - Import receipt images from gallery
 - Take receipt photos with camera
@@ -8,22 +8,21 @@ A React Native (Expo) starter for iOS and Android that can:
 - Extract likely `amount`, `merchant`, `date/time`, and `payment method`
 - Suggest an expense category automatically
 
+## Why this no longer uses Expo Go
+
+To remove the recurring `Project is incompatible with this version of Expo Go` issue, this project now runs as a **standard React Native app (CLI)** instead of Expo Go.
+
 ## Run
 
 ```bash
 npm install
-npx expo start -c
+npm run start
+npm run ios
+# or
+npm run android
 ```
 
-Then launch on iOS/Android simulator or device from the Expo UI.
+## Native setup notes
 
-## Expo Go compatibility note
-
-This project is pinned to **Expo SDK 50** for broader Expo Go compatibility.
-
-If you see `Project is incompatible with this version of Expo Go`:
-
-1. Update Expo Go from the App Store/Play Store.
-2. Clear Metro cache and restart: `npx expo start -c`.
-3. If the error persists, reinstall dependencies: `rm -rf node_modules package-lock.json && npm install`.
-4. If your device has an older Expo Go that cannot be updated, run with a dev build (`npm run ios` or `npm run android`) instead of Expo Go.
+- iOS: run `cd ios && pod install` before `npm run ios`.
+- Android: ensure camera and media permissions are enabled in your Android manifest.
