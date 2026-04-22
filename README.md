@@ -39,3 +39,20 @@ npx expo start -c
 
 - Use an emulator/simulator with a current Expo Go version, or
 - Build a development client (`npx expo run:ios` / `npx expo run:android`) so you are not blocked by Expo Go store version lag.
+
+
+### If you see `Cannot find module 'babel-preset-expo'`
+
+This project expects `babel-preset-expo` in `devDependencies`.
+After pulling changes, reinstall packages:
+
+```bash
+npm install
+```
+
+If Metro is still running, restart with cache clear:
+
+```bash
+npx expo start -c
+```
+
