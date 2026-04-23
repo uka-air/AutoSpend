@@ -10,6 +10,7 @@ export default function App() {
   const [imageUri, setImageUri] = useState<string | undefined>();
   const [receiptData, setReceiptData] = useState<ReceiptData | undefined>();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [qrData, setQrData] = useState<string | undefined>();
 
   async function runOcr(uri: string) {
     try {
@@ -20,6 +21,28 @@ export default function App() {
       Alert.alert('OCR failed', 'Unable to extract text from this image.');
     } finally {
       setIsProcessing(false);
+    }
+  }
+
+
+
+  async function decodeQrFromImage(uri: string) {
+    try {
+      // Use runtime require to avoid Expo camera type-package mismatch during TypeScript checks.
+      const expoCamera = require('expo-camera/build/index.js');
+      const scanFromURLAsync = expoCamera?.Camera?.scanFromURLAsync as
+        | ((url: string, barcodeTypes?: string[]) => Promise<Array<{ data?: string }>>)
+        | undefined;
+
+      if (!scanFromURLAsync) {
+        setQrData(undefined);
+        return;
+      }
+
+      const results = await scanFromURLAsync(uri, ['qr']);
+      setQrData(results?.[0]?.data);
+    } catch {
+      setQrData(undefined);
     }
   }
 
@@ -43,6 +66,7 @@ export default function App() {
     const uri = result.assets[0].uri;
     setImageUri(uri);
     await runOcr(uri);
+    await decodeQrFromImage(uri);
   }
 
   async function takePhoto() {
@@ -64,6 +88,7 @@ export default function App() {
     const uri = result.assets[0].uri;
     setImageUri(uri);
     await runOcr(uri);
+    await decodeQrFromImage(uri);
   }
 
   return (
@@ -81,6 +106,15 @@ export default function App() {
         {imageUri ? <Image source={{ uri: imageUri }} style={styles.image} /> : null}
 
         {isProcessing ? <Text style={styles.processing}>Processing OCR...</Text> : null}
+
+
+
+        {qrData ? (
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Decoded QR Data</Text>
+            <Text selectable style={styles.rawText}>{qrData}</Text>
+          </View>
+        ) : null}
 
         {receiptData ? (
           <View style={styles.card}>
