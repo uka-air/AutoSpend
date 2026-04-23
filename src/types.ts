@@ -1,8 +1,6 @@
 export type ReceiptData = {
   amount?: string;
-  merchant?: string;
+  toName?: string;
   dateTime?: string;
-  paymentMethod?: string;
-  category?: string;
   rawText: string;
 };

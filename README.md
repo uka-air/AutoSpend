@@ -5,8 +5,8 @@ A React Native (Expo) starter for iOS and Android that can:
 - Import receipt images from gallery
 - Take receipt photos with camera
 - Run OCR text extraction
-- Extract likely `amount`, `merchant`, `date/time`, and `payment method`
-- Suggest an expense category automatically
+- Decode QR data from the selected receipt image
+- Extract MVP fields: `date/time`, `to`, and `amount`
 
 ## Run
 
